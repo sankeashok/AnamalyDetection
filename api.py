@@ -9,7 +9,7 @@ CORS(app)
 
 # Load model and preprocessing artifacts
 model = joblib.load('network_anomaly_model.pkl')
-scaler = joblib.load('scaler.pkl')
+scaler = joblib.load('preprocessor.pkl')
 le_dict = joblib.load('label_encoders.pkl')
 feature_names = joblib.load('feature_names.pkl')
 

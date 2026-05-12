@@ -164,7 +164,7 @@ def run_experiment(model, run_name, params,
         # --- LOG ARTIFACTS (only for best/final run) ---
         if "RandomForest" in run_name:
             joblib.dump(model,        "network_anomaly_model.pkl")
-            joblib.dump(scaler,       "scaler.pkl")
+            joblib.dump(scaler,       "preprocessor.pkl")
             joblib.dump(le_dict,      "label_encoders.pkl")
             joblib.dump(list(feature_names), "feature_names.pkl")
 

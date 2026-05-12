@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # (Models, App, and Preprocessing artifacts)
 COPY api.py .
 COPY network_anomaly_model.pkl .
-COPY scaler.pkl .
+COPY preprocessor.pkl .
 COPY label_encoders.pkl .
 COPY feature_names.pkl .
 
