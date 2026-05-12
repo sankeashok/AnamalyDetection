@@ -3,7 +3,7 @@ title: Network Anomaly Detector
 emoji: 🛡️
 colorFrom: blue
 colorTo: red
-sdk: gradio
+sdk: docker
 pinned: false
 license: mit
 ---

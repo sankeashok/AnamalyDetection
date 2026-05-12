@@ -18,14 +18,14 @@ COPY scaler.pkl .
 COPY label_encoders.pkl .
 COPY feature_names.pkl .
 
-# Expose the port Flask runs on
-EXPOSE 5000
+# Expose the port Hugging Face requires
+EXPOSE 7860
 
 # Set environment variables
-ENV FLASK_APP=flask_app.py
+ENV FLASK_APP=api.py
 ENV FLASK_RUN_HOST=0.0.0.0
 
 # Command to run the application
 # We use gunicorn for a production-ready server instead of the Flask dev server
 RUN pip install gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "flask_app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:7860", "api:app"]
