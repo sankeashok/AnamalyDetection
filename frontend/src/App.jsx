@@ -176,13 +176,13 @@ function App() {
             )}
 
             {result && (
-              <div className="w-full space-y-6 animate-fade-up">
+              <div className="w-full space-y-3 animate-fade-up">
                 {/* Status */}
-                <div className={`p-4 rounded-xl border ${isAnomaly ? 'bg-red-500/10 border-red-500/30 pulse-threat' : 'bg-emerald-500/10 border-emerald-500/30'}`}>
-                  <div className={`text-2xl font-black tracking-wide ${isAnomaly ? 'text-red-400' : 'text-emerald-400'}`}>
+                <div className={`p-3 rounded-xl border ${isAnomaly ? 'bg-red-500/10 border-red-500/30 pulse-threat' : 'bg-emerald-500/10 border-emerald-500/30'}`}>
+                  <div className={`text-xl font-black tracking-wide ${isAnomaly ? 'text-red-400' : 'text-emerald-400'}`}>
                     {isAnomaly ? '🚨 THREAT' : '✅ SECURE'}
                   </div>
-                  <p className="text-[var(--text-secondary)] text-[10px] mt-1 uppercase tracking-wider font-medium">
+                  <p className="text-[var(--text-secondary)] text-[9px] mt-0.5 uppercase tracking-wider font-medium">
                     {isAnomaly ? 'Anomalous traffic pattern detected' : 'Normal traffic pattern confirmed'}
                   </p>
                 </div>
@@ -207,7 +207,15 @@ function App() {
 
         {/* Footer */}
         <footer className="mt-6 text-center text-[var(--text-secondary)] text-xs opacity-60 animate-fade-up delay-400">
-          Network Anomaly Detection · Portfolio Project · Ashok Sanke
+          Network Anomaly Detection ·{' '}
+          <a
+            href="https://www.linkedin.com/in/ashok-sanke/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[var(--accent)] hover:opacity-100 transition-colors underline underline-offset-2"
+          >
+            Ashok Sanke
+          </a>
         </footer>
       </main>
     </div>
