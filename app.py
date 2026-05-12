@@ -44,28 +44,66 @@ def predict_anomaly(duration, protocol, service, flag, src_bytes, dst_bytes, cou
     
     return label, confidence
 
+custom_css = """
+body { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364) !important; }
+.gradio-container {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+}
+.primary-btn {
+    background: linear-gradient(90deg, #00c6ff 0%, #0072ff 100%) !important;
+    border: none !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+.primary-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(0, 114, 255, 0.4) !important;
+}
+"""
+
+theme = gr.themes.Base(
+    primary_hue="blue",
+    neutral_hue="slate",
+    font=[gr.themes.GoogleFont('Inter'), 'ui-sans-serif', 'system-ui', 'sans-serif'],
+)
+
 # Build Gradio Interface
-with gr.Blocks(theme=gr.themes.Soft()) as demo:
-    gr.Markdown("# 🛡️ Network Anomaly Detection System")
-    gr.Markdown("Identify suspicious network connections in real-time using Machine Learning.")
+with gr.Blocks(theme=theme, css=custom_css) as demo:
+    with gr.Row():
+        gr.Markdown(
+            """
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h1 style="color: white; font-weight: 800; letter-spacing: 1px;">🛡️ Network Anomaly Detection System</h1>
+                <p style="color: #a0aec0; font-size: 1.1em;">Real-time AI-powered threat analysis and connection classification</p>
+            </div>
+            """
+        )
     
     with gr.Row():
-        with gr.Column():
-            gr.Markdown("### 📡 Connection Details")
-            duration = gr.Slider(0, 10000, value=0, label="Duration")
-            protocol = gr.Dropdown(list(le_dict['protocoltype'].classes_), value="tcp", label="Protocol Type")
-            service = gr.Dropdown(list(le_dict['service'].classes_), value="http", label="Service")
-            flag = gr.Dropdown(list(le_dict['flag'].classes_), value="SF", label="Flag")
-            src_bytes = gr.Number(value=181, label="Source Bytes")
-            dst_bytes = gr.Number(value=5450, label="Destination Bytes")
-            count = gr.Slider(0, 511, value=8, label="Connection Count")
+        with gr.Column(scale=1):
+            with gr.Group():
+                gr.Markdown("### 📡 Connection Details", elem_classes="section-title")
+                duration = gr.Slider(0, 10000, value=0, label="Duration", info="Length of connection in seconds")
+                with gr.Row():
+                    protocol = gr.Dropdown(list(le_dict['protocoltype'].classes_), value="tcp", label="Protocol Type")
+                    service = gr.Dropdown(list(le_dict['service'].classes_), value="http", label="Service")
+                    flag = gr.Dropdown(list(le_dict['flag'].classes_), value="SF", label="Flag")
+                with gr.Row():
+                    src_bytes = gr.Number(value=181, label="Source Bytes")
+                    dst_bytes = gr.Number(value=5450, label="Destination Bytes")
+                count = gr.Slider(0, 511, value=8, label="Connection Count", info="Number of connections to same host in past 2 seconds")
             
-            btn = gr.Button("Analyze Connection", variant="primary")
+            btn = gr.Button("🔍 Analyze Connection", variant="primary", elem_classes="primary-btn")
             
-        with gr.Column():
-            gr.Markdown("### 🔍 Analysis Result")
-            output_label = gr.Label(label="Classification")
-            output_probs = gr.Label(label="Confidence Scores")
+        with gr.Column(scale=1):
+            with gr.Group():
+                gr.Markdown("### 🔬 Analysis Result", elem_classes="section-title")
+                output_label = gr.Label(label="Classification Status")
+                output_probs = gr.Label(label="Confidence Scores")
             
     btn.click(
         fn=predict_anomaly, 
@@ -73,7 +111,12 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
         outputs=[output_label, output_probs]
     )
     
-    gr.Markdown("---")
-    gr.Markdown("Developed by **Sanke Ashok** for Scaler Portfolio Project 01.")
+    gr.Markdown(
+        """
+        <div style="text-align: center; margin-top: 30px; color: #a0aec0; font-size: 0.9em;">
+            Developed by <strong>Sanke Ashok</strong> for Scaler Portfolio Project 01.
+        </div>
+        """
+    )
 
 demo.launch()
