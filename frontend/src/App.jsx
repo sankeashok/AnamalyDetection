@@ -31,7 +31,7 @@ function App() {
     setResult(null)
 
     try {
-      const response = await fetch(`${API_URL}/predict`, {
+      const response = await fetch('/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -59,7 +59,7 @@ function App() {
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-12 md:py-16">
-        
+
         {/* Hero Header */}
         <header className="text-center mb-10 md:mb-14 animate-fade-up">
           <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[10px] font-bold tracking-[0.3em] uppercase liquid-glass mb-6 text-[var(--accent)]">
@@ -79,7 +79,7 @@ function App() {
 
         {/* Dashboard */}
         <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-5 gap-6 animate-fade-up delay-200">
-          
+
           {/* Input Panel — 3 cols */}
           <section className="lg:col-span-3 specular-card p-6 md:p-8">
             <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-6 flex items-center gap-2">
@@ -150,7 +150,7 @@ function App() {
 
           {/* Result Panel — 2 cols */}
           <section className="lg:col-span-2 specular-card p-6 md:p-8 flex flex-col justify-center items-center text-center min-h-[320px]">
-            
+
             {!result && !error && !loading && (
               <div className="flex flex-col items-center gap-3 opacity-40">
                 <svg className="w-16 h-16 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
@@ -204,6 +204,10 @@ function App() {
           </section>
         </div>
 
+        {/* Footer */}
+        <footer className="mt-12 text-center text-[var(--text-secondary)] text-xs opacity-60 animate-fade-up delay-400">
+          Network Anomaly Detection · Portfolio Project · Ashok Sanke
+        </footer>
       </main>
     </div>
   )
