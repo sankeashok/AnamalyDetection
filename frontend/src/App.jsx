@@ -58,10 +58,10 @@ function App() {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col items-center justify-center px-4 py-12 md:py-16">
+      <main className="flex-1 flex flex-col items-center justify-center px-4 py-4 md:py-8">
 
         {/* Hero Header */}
-        <header className="text-center mb-10 md:mb-14 animate-fade-up">
+        <header className="text-center mb-6 md:mb-8 animate-fade-up">
           <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[10px] font-bold tracking-[0.3em] uppercase liquid-glass mb-6 text-[var(--accent)]">
             <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
             Random Forest · 99.9% Accuracy
@@ -81,8 +81,8 @@ function App() {
         <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-5 gap-6 animate-fade-up delay-200">
 
           {/* Input Panel — 3 cols */}
-          <section className="lg:col-span-3 specular-card p-6 md:p-8">
-            <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-6 flex items-center gap-2">
+          <section className="lg:col-span-3 specular-card p-4 md:p-6">
+            <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4 flex items-center gap-2">
               <svg className="w-5 h-5 text-[var(--accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
@@ -149,7 +149,7 @@ function App() {
           </section>
 
           {/* Result Panel — 2 cols */}
-          <section className="lg:col-span-2 specular-card p-6 md:p-8 flex flex-col justify-center items-center text-center min-h-[320px]">
+          <section className="lg:col-span-2 specular-card p-4 md:p-6 flex flex-col justify-center items-center text-center">
 
             {!result && !error && !loading && (
               <div className="flex flex-col items-center gap-3 opacity-40">
@@ -205,7 +205,7 @@ function App() {
         </div>
 
         {/* Footer */}
-        <footer className="mt-12 text-center text-[var(--text-secondary)] text-xs opacity-60 animate-fade-up delay-400">
+        <footer className="mt-6 text-center text-[var(--text-secondary)] text-xs opacity-60 animate-fade-up delay-400">
           Network Anomaly Detection · Portfolio Project · Ashok Sanke
         </footer>
       </main>
