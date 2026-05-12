@@ -170,8 +170,8 @@ function App() {
 
             {error && (
               <div className="bg-red-500/10 border border-red-500/20 p-5 rounded-xl w-full">
-                <p className="text-red-400 text-sm font-medium">⚠️ {error}</p>
-                <p className="text-red-400/60 text-xs mt-1">Ensure the Flask API is running on port 5000</p>
+                <p className="text-red-400 text-sm font-medium">⚠️ API Connection Failed</p>
+                <p className="text-red-400/60 text-xs mt-1">Please ensure the backend is public and running.</p>
               </div>
             )}
 
