@@ -26,3 +26,7 @@ huggingface/
 Completing Network Anomaly Detection Portfolio-Chat 01.md
 Completing Network Anomaly Detection Portfolio-Chat 02.md
 hf_readme.md
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env*
