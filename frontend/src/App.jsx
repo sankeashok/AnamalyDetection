@@ -177,11 +177,11 @@ function App() {
             {result && (
               <div className="w-full space-y-6 animate-fade-up">
                 {/* Status */}
-                <div className={`p-6 rounded-2xl border ${isAnomaly ? 'bg-red-500/10 border-red-500/30 pulse-threat' : 'bg-emerald-500/10 border-emerald-500/30'}`}>
-                  <div className={`text-3xl font-black tracking-wide ${isAnomaly ? 'text-red-400' : 'text-emerald-400'}`}>
+                <div className={`p-4 rounded-xl border ${isAnomaly ? 'bg-red-500/10 border-red-500/30 pulse-threat' : 'bg-emerald-500/10 border-emerald-500/30'}`}>
+                  <div className={`text-2xl font-black tracking-wide ${isAnomaly ? 'text-red-400' : 'text-emerald-400'}`}>
                     {isAnomaly ? '🚨 THREAT' : '✅ SECURE'}
                   </div>
-                  <p className="text-[var(--text-secondary)] text-xs mt-2 uppercase tracking-wider font-medium">
+                  <p className="text-[var(--text-secondary)] text-[10px] mt-1 uppercase tracking-wider font-medium">
                     {isAnomaly ? 'Anomalous traffic pattern detected' : 'Normal traffic pattern confirmed'}
                   </p>
                 </div>
