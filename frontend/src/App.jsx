@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'
+
 function App() {
   const [formData, setFormData] = useState({
     duration: 0,
@@ -10,7 +12,7 @@ function App() {
     dstbytes: 5450,
     count: 8
   })
-  
+
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -27,15 +29,14 @@ function App() {
     setLoading(true)
     setError(null)
     setResult(null)
-    
+
     try {
-      const response = await fetch('http://127.0.0.1:5000/predict', {
+      const response = await fetch(`${API_URL}/predict`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       })
-      
-      if (!response.ok) throw new Error('Failed to connect to the prediction API')
+      if (!response.ok) throw new Error('API connection failed')
       const data = await response.json()
       setResult(data)
     } catch (err) {
@@ -45,188 +46,174 @@ function App() {
     }
   }
 
+  const isAnomaly = result?.prediction_label === 'anomaly'
+
   return (
-    <div className="min-h-screen p-4 md:p-8 flex flex-col items-center justify-center relative overflow-hidden bg-[#020617]">
-      {/* Background ambient light */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-teal-500/20 blur-[120px] pointer-events-none"></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-500/20 blur-[120px] pointer-events-none"></div>
+    <div className="relative min-h-screen flex flex-col">
+      {/* Animated Background */}
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="blob-1 absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full blur-[120px] opacity-20 bg-[radial-gradient(circle,#2dd4bf_0%,transparent_70%)]" />
+        <div className="blob-2 absolute top-[40%] -right-[10%] w-[45%] h-[45%] rounded-full blur-[100px] opacity-15 bg-[radial-gradient(circle,#6366f1_0%,transparent_70%)]" />
+        <div className="absolute inset-0 noise-overlay" />
+      </div>
 
-      <div className="w-full max-w-6xl z-10 animate-liquid">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-block px-4 py-1 rounded-full liquid-glass text-teal-400 text-sm font-semibold mb-4 tracking-wide border-teal-400/20">
-            Powered by ML
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col items-center justify-center px-4 py-12 md:py-16">
+        
+        {/* Hero Header */}
+        <header className="text-center mb-10 md:mb-14 animate-fade-up">
+          <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[10px] font-bold tracking-[0.3em] uppercase liquid-glass mb-6 text-[var(--accent)]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
+            Random Forest · 99.9% Accuracy
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight text-white drop-shadow-lg">
-            Network <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-400">Anomaly Detector</span>
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.1] mb-4">
+            Network{' '}
+            <span className="bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+              Anomaly Detector
+            </span>
           </h1>
-          <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto font-light">
-            Real-time AI threat analysis and connection classification using a Random Forest algorithm.
+          <p className="text-[var(--text-secondary)] text-base md:text-lg max-w-xl mx-auto font-light">
+            Real-time AI-powered threat classification for network connections.
           </p>
-        </div>
+        </header>
 
-        {/* Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Dashboard */}
+        <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-5 gap-6 animate-fade-up delay-200">
           
-          {/* Input Form Card */}
-          <div className="specular-card p-6 md:p-8">
-            <h3 className="text-2xl font-semibold mb-6 flex items-center text-slate-200">
-              <span className="text-teal-400 mr-3 text-xl">📡</span> Connection Details
-            </h3>
-            
-            <div className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-slate-400 mb-2">Duration (seconds)</label>
-                <input 
-                  type="number" 
-                  name="duration" 
-                  value={formData.duration} 
-                  onChange={handleChange} 
-                  className="w-full p-3 liquid-input"
-                  min="0"
-                />
-              </div>
+          {/* Input Panel — 3 cols */}
+          <section className="lg:col-span-3 specular-card p-6 md:p-8">
+            <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-6 flex items-center gap-2">
+              <svg className="w-5 h-5 text-[var(--accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              Connection Parameters
+            </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">Protocol</label>
-                  <select name="protocoltype" value={formData.protocoltype} onChange={handleChange} className="w-full p-3 liquid-input">
+            <div className="space-y-5">
+              {/* Row 1: Protocol, Service, Flag */}
+              <div className="grid grid-cols-3 gap-3">
+                <Field label="Protocol">
+                  <select name="protocoltype" value={formData.protocoltype} onChange={handleChange} className="w-full p-2.5 liquid-input text-sm">
                     <option value="tcp">TCP</option>
                     <option value="udp">UDP</option>
                     <option value="icmp">ICMP</option>
                   </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">Service</label>
-                  <select name="service" value={formData.service} onChange={handleChange} className="w-full p-3 liquid-input">
+                </Field>
+                <Field label="Service">
+                  <select name="service" value={formData.service} onChange={handleChange} className="w-full p-2.5 liquid-input text-sm">
                     <option value="http">HTTP</option>
                     <option value="private">Private</option>
                     <option value="domain_u">Domain U</option>
                     <option value="smtp">SMTP</option>
                     <option value="ftp_data">FTP Data</option>
                   </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">Flag</label>
-                  <select name="flag" value={formData.flag} onChange={handleChange} className="w-full p-3 liquid-input">
+                </Field>
+                <Field label="Flag">
+                  <select name="flag" value={formData.flag} onChange={handleChange} className="w-full p-2.5 liquid-input text-sm">
                     <option value="SF">SF</option>
                     <option value="S0">S0</option>
                     <option value="REJ">REJ</option>
                   </select>
-                </div>
+                </Field>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">Source Bytes</label>
-                  <input type="number" name="srcbytes" value={formData.srcbytes} onChange={handleChange} className="w-full p-3 liquid-input" min="0" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">Destination Bytes</label>
-                  <input type="number" name="dstbytes" value={formData.dstbytes} onChange={handleChange} className="w-full p-3 liquid-input" min="0" />
-                </div>
+              {/* Row 2: Duration + Count */}
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Duration (s)">
+                  <input type="number" name="duration" value={formData.duration} onChange={handleChange} className="w-full p-2.5 liquid-input text-sm" min="0" />
+                </Field>
+                <Field label={`Connections / 2s — ${formData.count}`}>
+                  <input type="range" name="count" value={formData.count} onChange={handleChange} className="w-full h-2 mt-2 rounded-lg cursor-pointer liquid-input" min="0" max="511" />
+                </Field>
               </div>
 
-              <div>
-                <label className="flex justify-between text-sm font-medium text-slate-400 mb-2">
-                  <span>Connection Count (past 2s)</span>
-                  <span className="text-teal-400 font-bold">{formData.count}</span>
-                </label>
-                <input 
-                  type="range" 
-                  name="count" 
-                  value={formData.count} 
-                  onChange={handleChange} 
-                  className="w-full h-2 rounded-lg appearance-none cursor-pointer liquid-input"
-                  min="0" max="511" 
-                />
+              {/* Row 3: Bytes */}
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Source Bytes">
+                  <input type="number" name="srcbytes" value={formData.srcbytes} onChange={handleChange} className="w-full p-2.5 liquid-input text-sm" min="0" />
+                </Field>
+                <Field label="Destination Bytes">
+                  <input type="number" name="dstbytes" value={formData.dstbytes} onChange={handleChange} className="w-full p-2.5 liquid-input text-sm" min="0" />
+                </Field>
               </div>
 
-              <button 
-                onClick={analyzeConnection} 
+              {/* CTA */}
+              <button
+                onClick={analyzeConnection}
                 disabled={loading}
-                className="w-full mt-4 py-4 rounded-xl font-bold text-lg bg-gradient-to-r from-teal-500 to-emerald-500 text-white shadow-lg shadow-teal-500/30 hover:shadow-teal-500/50 hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:hover:translate-y-0"
+                className="w-full py-3.5 rounded-xl font-bold text-sm tracking-wide uppercase bg-gradient-to-r from-teal-500 to-emerald-500 text-white shadow-lg shadow-teal-500/25 hover:shadow-teal-500/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none"
               >
-                {loading ? 'Analyzing Traffic...' : '🔍 Analyze Connection'}
+                {loading ? 'Analyzing…' : 'Analyze Connection'}
               </button>
             </div>
-          </div>
+          </section>
 
-          {/* Results Card */}
-          <div className="specular-card p-6 md:p-8 flex flex-col justify-center items-center text-center min-h-[400px]">
-            <h3 className="text-2xl font-semibold mb-8 flex items-center text-slate-200 w-full justify-start">
-              <span className="text-teal-400 mr-3 text-xl">🔬</span> Analysis Result
-            </h3>
-
+          {/* Result Panel — 2 cols */}
+          <section className="lg:col-span-2 specular-card p-6 md:p-8 flex flex-col justify-center items-center text-center min-h-[320px]">
+            
             {!result && !error && !loading && (
-              <div className="flex flex-col items-center justify-center flex-1 opacity-50">
-                <div className="text-6xl mb-4">🖧</div>
-                <p className="text-slate-400 text-lg">Awaiting connection data...</p>
+              <div className="flex flex-col items-center gap-3 opacity-40">
+                <svg className="w-16 h-16 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                <p className="text-slate-500 text-sm font-medium">Awaiting analysis…</p>
               </div>
             )}
 
             {loading && (
-              <div className="flex flex-col items-center justify-center flex-1">
-                <div className="w-16 h-16 border-4 border-teal-500/30 border-t-teal-500 rounded-full animate-spin mb-4"></div>
-                <p className="text-teal-400 animate-pulse font-medium">Processing neural layers...</p>
+              <div className="flex flex-col items-center gap-4">
+                <div className="w-12 h-12 border-[3px] border-teal-500/20 border-t-teal-500 rounded-full animate-spin" />
+                <p className="text-[var(--accent)] text-sm font-medium animate-pulse">Processing…</p>
               </div>
             )}
 
             {error && (
-              <div className="bg-red-500/10 border border-red-500/30 p-6 rounded-2xl w-full">
-                <span className="text-3xl block mb-2">⚠️</span>
-                <p className="text-red-400 font-medium">{error}</p>
+              <div className="bg-red-500/10 border border-red-500/20 p-5 rounded-xl w-full">
+                <p className="text-red-400 text-sm font-medium">⚠️ {error}</p>
+                <p className="text-red-400/60 text-xs mt-1">Ensure the Flask API is running on port 5000</p>
               </div>
             )}
 
             {result && (
-              <div className="w-full flex flex-col items-center flex-1 justify-center space-y-8 animate-in fade-in zoom-in duration-500">
-                
-                {/* Status Badge */}
-                <div className={`px-8 py-6 rounded-2xl border-2 w-full shadow-2xl ${
-                  result.prediction_label === 'anomaly' 
-                    ? 'bg-red-500/10 border-red-500/50 shadow-red-500/20' 
-                    : 'bg-emerald-500/10 border-emerald-500/50 shadow-emerald-500/20'
-                }`}>
-                  <h2 className={`text-3xl md:text-4xl font-extrabold tracking-wide flex items-center justify-center gap-3 ${
-                    result.prediction_label === 'anomaly' ? 'text-red-400' : 'text-emerald-400'
-                  }`}>
-                    {result.prediction_label === 'anomaly' ? (
-                      <><span className="animate-pulse">🚨</span> THREAT DETECTED</>
-                    ) : (
-                      <><span className="drop-shadow-lg">✅</span> SECURE</>
-                    )}
-                  </h2>
+              <div className="w-full space-y-6 animate-fade-up">
+                {/* Status */}
+                <div className={`p-6 rounded-2xl border ${isAnomaly ? 'bg-red-500/10 border-red-500/30 pulse-threat' : 'bg-emerald-500/10 border-emerald-500/30'}`}>
+                  <div className={`text-3xl font-black tracking-wide ${isAnomaly ? 'text-red-400' : 'text-emerald-400'}`}>
+                    {isAnomaly ? '🚨 THREAT' : '✅ SECURE'}
+                  </div>
+                  <p className="text-[var(--text-secondary)] text-xs mt-2 uppercase tracking-wider font-medium">
+                    {isAnomaly ? 'Anomalous traffic pattern detected' : 'Normal traffic pattern confirmed'}
+                  </p>
                 </div>
 
-                {/* Confidence Meter */}
-                <div className="w-full liquid-glass p-6 rounded-2xl text-left">
-                  <div className="flex justify-between items-end mb-3">
-                    <span className="text-slate-400 font-medium uppercase tracking-wider text-sm">Model Confidence</span>
-                    <span className="text-2xl font-bold text-slate-200">{(result.confidence * 100).toFixed(1)}%</span>
+                {/* Confidence */}
+                <div className="liquid-glass p-4 rounded-xl text-left">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-[var(--text-secondary)] text-xs font-medium uppercase tracking-wider">Confidence</span>
+                    <span className="text-lg font-bold text-[var(--text-primary)]">{(result.confidence * 100).toFixed(1)}%</span>
                   </div>
-                  
-                  <div className="h-3 w-full bg-slate-800/50 rounded-full overflow-hidden border border-white/5">
-                    <div 
-                      className={`h-full rounded-full transition-all duration-1000 ease-out ${
-                        result.prediction_label === 'anomaly' 
-                          ? 'bg-gradient-to-r from-red-500 to-rose-400 shadow-[0_0_10px_rgba(244,63,94,0.5)]' 
-                          : 'bg-gradient-to-r from-emerald-500 to-teal-400 shadow-[0_0_10px_rgba(16,185,129,0.5)]'
-                      }`}
+                  <div className="h-2 w-full bg-slate-800/60 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full rounded-full transition-all duration-1000 ease-out ${isAnomaly ? 'bg-gradient-to-r from-red-500 to-rose-400' : 'bg-gradient-to-r from-emerald-500 to-teal-400'}`}
                       style={{ width: `${result.confidence * 100}%` }}
                     />
                   </div>
                 </div>
-
               </div>
             )}
-          </div>
+          </section>
         </div>
 
-        <div className="mt-12 text-center text-slate-500 text-sm">
-          <p>Portfolio Project 01 • Designed for hiring managers</p>
-        </div>
-      </div>
+      </main>
+    </div>
+  )
+}
+
+function Field({ label, children }) {
+  return (
+    <div>
+      <label className="block text-[11px] font-medium text-[var(--text-secondary)] mb-1.5 uppercase tracking-wider">{label}</label>
+      {children}
     </div>
   )
 }
