@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.git/
+.gitignore
+.venv/
+venv/
+*.csv
+*.docx
+*.pdf
+scratch/
+Loom_Video_Script.md
+Technical_Blog_Draft.md
+Tableau_Dashboard_Guide.md
+PortfolioInstructions.md
+implementation_plan*
+task.md

@@ -1,0 +1,23 @@
+name: Sync to Hugging Face Hub
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  sync-to-hub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Push to hub
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git config --global user.email "sankeashok@gmail.com"
+          git config --global user.name "Sanke Ashok"
+          git remote add hf https://sankeashook:$HF_TOKEN@huggingface.co/spaces/sankeashook/Network-Anomaly-Detector || git remote set-url hf https://sankeashook:$HF_TOKEN@huggingface.co/spaces/sankeashook/Network-Anomaly-Detector
+          git push --force hf main

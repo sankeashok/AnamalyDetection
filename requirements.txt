@@ -1,0 +1,17 @@
+flask
+joblib
+pandas
+numpy
+scikit-learn
+scipy
+seaborn
+matplotlib
+nbformat
+gunicorn
+# MLOps & Monitoring
+mlflow
+dagshub
+prometheus_flask_exporter
+# UI & Dashboards
+streamlit
+plotly

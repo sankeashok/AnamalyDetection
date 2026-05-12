@@ -1,0 +1,28 @@
+__pycache__/
+.ipynb_checkpoints/
+scratch/
+.venv/
+venv/
+*.docx
+~$*
+
+# Planning and AI-trace files
+implementation_plan.md
+task.md
+Loom_Video_Script.md
+Technical_Blog_Draft.md
+PortfolioInstructions.md
+Tableau_Dashboard_Guide.md
+implementation_plan 2
+flask_app.py
+gradio_app.py
+streamlit_app.py
+mlflow_logging.py
+docker-compose.yml
+Dockerfile
+prometheus.yml
+huggingface/
+.github/
+Completing Network Anomaly Detection Portfolio-Chat 01.md
+Completing Network Anomaly Detection Portfolio-Chat 02.md
+hf_readme.md
