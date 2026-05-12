@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 // Use local Vite proxy during development, and the live Hugging Face API in production (Vercel)
-const API_URL = import.meta.env.DEV ? '' : 'https://sankeashok-network-anomaly-detector.hf.space'
+const API_URL = import.meta.env.DEV ? '' : 'https://sankeashook-network-anomaly-detector.hf.space'
 
 function App() {
   const [formData, setFormData] = useState({
