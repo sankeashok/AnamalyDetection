@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'
+// Use local Vite proxy during development, and the live Hugging Face API in production (Vercel)
+const API_URL = import.meta.env.DEV ? '' : 'https://sankeashok-network-anomaly-detector.hf.space'
 
 function App() {
   const [formData, setFormData] = useState({
@@ -31,7 +32,7 @@ function App() {
     setResult(null)
 
     try {
-      const response = await fetch('/predict', {
+      const response = await fetch(`${API_URL}/predict`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
