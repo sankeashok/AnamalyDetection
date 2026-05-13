@@ -16,7 +16,7 @@ Usage:
 import os
 import warnings
 import mlflow
-import dagshub
+import mlflow.sklearn
 import joblib
 import pandas as pd
 import numpy as np
@@ -39,8 +39,8 @@ warnings.filterwarnings("ignore")
 # ─────────────────────────────────────────────────────────────────────────────
 # DAGSHUB CONFIG — update repo_name if it differs on DagsHub
 # ─────────────────────────────────────────────────────────────────────────────
-REPO_OWNER = "sankeashook"
-REPO_NAME  = "AnamalyDetection"
+REPO_OWNER = "sankeashok"
+REPO_NAME  = "network-anomaly-detection"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # STEP 1 — Connect to DagsHub
@@ -169,7 +169,7 @@ def run_experiment(model, run_name, params,
             joblib.dump(list(feature_names), "feature_names.pkl")
 
             mlflow.log_artifact("network_anomaly_model.pkl")
-            mlflow.log_artifact("scaler.pkl")
+            mlflow.log_artifact("preprocessor.pkl")
             mlflow.log_artifact("label_encoders.pkl")
             mlflow.log_artifact("feature_names.pkl")
             print("   📦 Artifacts saved & logged.")
